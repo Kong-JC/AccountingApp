@@ -47,6 +47,7 @@ public class RecordDatabaseHelper extends SQLiteOpenHelper {
 
     // 增
     public void addRecord(RecordBean bean) {
+        LogUtil.d(TAG, bean.toString());
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("uuid", bean.getUuid());
@@ -75,7 +76,7 @@ public class RecordDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // 查
-    public LinkedList<RecordBean> recordBeans(String dateStr) {
+    public LinkedList<RecordBean> readRecords(String dateStr) {
         LinkedList<RecordBean> recordBeans = new LinkedList<>();
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery(context.getString(R.string.queryDate), new String[]{dateStr});

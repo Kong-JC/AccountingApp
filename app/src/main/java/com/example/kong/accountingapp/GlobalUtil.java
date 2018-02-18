@@ -14,6 +14,8 @@ public class GlobalUtil {
     private Context context;
     public RecordDatabaseHelper databaseHelper;
 
+    public MainActivity mainActivity;
+
     public LinkedList<CategoryResBean> costRes = new LinkedList<>();
     public LinkedList<CategoryResBean> earnRes = new LinkedList<>();
 
@@ -41,20 +43,26 @@ public class GlobalUtil {
 
     private static String[] earnTitle = {"General", "Reimburse", "Salary", "RedPocket", "Part-time", "Bonus", "Investment"};
 
+    public int getResourceIcon(String category) {
+        for (CategoryResBean res : costRes) {
+            if (res.title.equals(category)) {
+                return res.resWhite;
+            }
+        }
+        for (CategoryResBean res : earnRes) {
+            if (res.title.equals(category)) {
+                return res.resWhite;
+            }
+        }
+        return costRes.get(0).resWhite;
+    }
+
     public static GlobalUtil getInstance() {
-//        if (instance == null) {
-//            synchronized (GlobalUtil.class) {
         if (instance == null) {
             instance = new GlobalUtil();
         }
-//            }
-//        }
         return instance;
     }
-
-//    public GlobalUtil() {
-//
-//    }
 
     public Context getContext() {
         return context;
@@ -78,4 +86,15 @@ public class GlobalUtil {
             earnRes.add(res);
         }
     }
+
+    public UpdateHandler updateHandler;
+
+    interface UpdateHandler {
+        void updateAmount();
+    }
+
+    public void setUpdateHandler(UpdateHandler updateHandler) {
+        this.updateHandler = updateHandler;
+    }
+
 }

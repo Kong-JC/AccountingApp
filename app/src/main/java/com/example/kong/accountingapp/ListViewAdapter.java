@@ -55,25 +55,29 @@ public class ListViewAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.cell_list_view, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
-        }else{
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
         RecordBean bean = getItem(position);
 
-//        holder.categoryIcone.setImageResource();
-//        holder.remarkTV.setText(bean.getRemark());
-//        holder.amountTV.setText(bean.getAmount()+"");
-//        holder.timeTV.setText(bean.getDate());
+        holder.remarkTV.setText(bean.getRemark());
+        if (bean.getType() == 1) {
+            holder.amountTV.setText("- " + bean.getAmount() + "");
+        } else {
+            holder.amountTV.setText("+ " + bean.getAmount() + "");
+        }
+        holder.timeTV.setText(DateUtil.getFormattedTime(bean.getTimeStamp()));
+        holder.categoryIcon.setImageResource(GlobalUtil.getInstance().getResourceIcon(bean.getCategory()));
 
         return convertView;
     }
 
     class ViewHolder {
-        private ImageView categoryIcone;
+        private ImageView categoryIcon;
         private TextView remarkTV, amountTV, timeTV;
 
         public ViewHolder(View view) {
-            categoryIcone = view.findViewById(R.id.imageView_category);
+            categoryIcon = view.findViewById(R.id.imageView_category);
             remarkTV = view.findViewById(R.id.textView_remark);
             amountTV = view.findViewById(R.id.textView_amount);
             timeTV = view.findViewById(R.id.textView_time);

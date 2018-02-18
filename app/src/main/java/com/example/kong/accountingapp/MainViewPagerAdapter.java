@@ -1,6 +1,5 @@
 package com.example.kong.accountingapp;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
@@ -21,9 +20,10 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     private void initFragments() {
-        dates.add("2017-06-01");
-        dates.add("2017-06-02");
-        dates.add("2017-06-03");
+        dates = GlobalUtil.getInstance().databaseHelper.getAvaliableDate();
+        if (!dates.contains(DateUtil.getFormattedDate())) {
+            dates.addLast(DateUtil.getFormattedDate());
+        }
         for (String date : dates) {
             MainFragment fragment = new MainFragment(date);
             fragments.add(fragment);
@@ -35,13 +35,29 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public MainFragment getItem(int position) {
         return fragments.get(position);
     }
 
     @Override
     public int getCount() {
         return fragments.size();
+    }
+
+
+
+    public void reload() {
+        for (MainFragment fragment : fragments) {
+            fragment.reload();
+        }
+    }
+
+    public String getDateStr(int index){
+        return dates.get(index);
+    }
+
+    public double getTotalCost(int index) {
+        return getItem(index).getTotalCose();
     }
 
 }

@@ -26,11 +26,15 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
     private RecordBean.RecordType type = RecordBean.RecordType.RECORD_TYPE_EXPENSE;
     private String remark = category;
 
+    private RecordBean recordBean = new RecordBean();
+
+    private boolean inEdit = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_record);
-        GlobalUtil.getInstance().setContext(this);
+
         initKeyboardView();
     }
 
@@ -60,9 +64,15 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
         recyclerView.setLayoutManager(gridLayoutManager);
         adapter = new CategoryRecyclerAdapter(getApplicationContext());
         recyclerView.setAdapter(adapter);
-//        adapter.notifyDataSetChanged();
-//        recyclerView;
         adapter.setOnCategoryClickListener(this);
+
+        RecordBean record = (RecordBean) getIntent().getSerializableExtra("record");
+        if (record != null) {
+//            LogUtil.d(TAG,"getIntent "+record.getRemark());
+            inEdit = true;
+            this.recordBean = record;
+        }
+
     }
 
     private void handlerDone() {
@@ -71,14 +81,19 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
             public void onClick(View v) {
                 if (!TextUtils.isEmpty(userInput)) {
                     double amount = Double.valueOf(userInput);
-                    RecordBean recordBean = new RecordBean();
+
                     recordBean.setAmount(amount);
                     recordBean.setType(type);
                     recordBean.setCategory(adapter.getSelected());
                     recordBean.setRemark(editText.getText().toString());
-                    GlobalUtil.getInstance().databaseHelper.addRecord(recordBean);
+
+                    if (inEdit) {
+                        GlobalUtil.getInstance().databaseHelper.editRecord(recordBean.getUuid(),recordBean);
+                    } else {
+                        GlobalUtil.getInstance().databaseHelper.addRecord(recordBean);
+                    }
+
                     finish();
-                    LogUtil.d(TAG, "onClick: amount:" + amount);
                 } else {
                     Toast.makeText(AddRecordActivity.this, "Amount is 0 !!!", Toast.LENGTH_SHORT).show();
                 }

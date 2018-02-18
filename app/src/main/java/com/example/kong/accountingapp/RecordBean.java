@@ -1,12 +1,13 @@
 package com.example.kong.accountingapp;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Created by Kong on 2018/2/17.
  */
 
-public class RecordBean {
+public class RecordBean implements Serializable{
 
     private static final String TAG = "RecordBean";
 
@@ -114,6 +115,33 @@ public class RecordBean {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+//    @Override
+//    public String toString() {
+//        return "RecordBean{" +
+//                "\namount=" + amount +
+//                "\ntype=" + type +
+//                "\ncategory='" + category + '\'' +
+//                "\nremark='" + remark + '\'' +
+//                "\ndate='" + date + '\'' +
+//                "\ntimeStamp=" + timeStamp +
+//                "\nuuid='" + uuid + '\'' +
+//                '}';
+//    }
+
+
+    @Override
+    public String toString() {
+        return "RecordBean{" +
+                "amount=" + amount +
+                ", type=" + type +
+                ", category='" + category + '\'' +
+                ", remark='" + remark + '\'' +
+                ", date='" + date + '\'' +
+                ", timeStamp=" + timeStamp +
+                ", uuid='" + uuid + '\'' +
+                '}';
     }
 
 }
