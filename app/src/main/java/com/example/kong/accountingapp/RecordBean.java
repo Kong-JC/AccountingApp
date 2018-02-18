@@ -72,6 +72,9 @@ public class RecordBean {
             this.type = RecordType.RECORD_TYPE_INCOME;
         }
     }
+    public void setType(RecordType type) {
+            this.type = type;
+    }
 
     public String getCategory() {
         return category;

@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">AccountingApp</string>
-    <string name="queryDate">select DISTINCE * from Record where date = ? order by time asc</string>
+    <string name="queryDate">select DISTINCT * from Record where date = ? order by time asc</string>
 </resources>
